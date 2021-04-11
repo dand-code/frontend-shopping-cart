@@ -1,7 +1,27 @@
-
+import React, { useState } from 'react';
 import '../App.css';
 
 function Item(props) {
+    const [quantity, setQuantity] = useState(0);
+    const [total, setTotal] = useState(0);
+    const currency = props.currency;
+
+    const reduceQuantity = () => {
+        if (quantity - 1 >= 0) {
+            setQuantity(quantity - 1);
+            updateTotal(quantity - 1);
+        }
+    }
+
+    const incrementQuantity = () => {
+        setQuantity(quantity + 1);
+        updateTotal(quantity + 1);
+    }
+
+    const updateTotal = (qty) => {
+        setTotal(qty * props.price);
+    }
+
     return (
         <li className="product row">
             <div className="col-product">
@@ -14,20 +34,18 @@ function Item(props) {
                 </figure>
             </div>
             <div className="col-quantity">
-                <button className="count" >-</button
-                ><input type="text" className="product-quantity" value="3" /><button
+                <button className="count" onClick={reduceQuantity}>-</button>
+                <input type="text" className="product-quantity" value={quantity} /><button onClick={incrementQuantity}
                     className="count"
-                >
-                    +
-            </button>
+                >+</button>
             </div>
             <div className="col-price">
-                <span className="product-price">{props.price}</span
-                ><span className="product-currency currency">€</span>
+                <span className="product-price">{props.price}</span>
+                <span className="product-currency currency">{currency}</span>
             </div>
             <div className="col-total">
-                <span className="product-price">60</span
-                ><span className="product-currency currency">€</span>
+                <span className="product-price">{total}</span>
+                <span className="product-currency currency">{currency}</span>
             </div>
         </li>
     );

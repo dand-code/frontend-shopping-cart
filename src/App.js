@@ -21,9 +21,9 @@ function App() {
             </li>
           </ul>
           <ul className="products-list">
-            <Item product='Shirt' img={shirt} productCode='X7R2OPX' price='20' />
-            <Item product='Mug' img={mug} productCode='X2G2OPZ' price='5' />
-            <Item product='Cap' img={cap} productCode='X3W2OPY' price='10' />
+            <Item product='Shirt' img={shirt} productCode='X7R2OPX' price='20' currency="€" />
+            <Item product='Mug' img={mug} productCode='X2G2OPZ' price='5' currency="€" />
+            <Item product='Cap' img={cap} productCode='X3W2OPY' price='10' currency="€" />
           </ul>
         </section>
         <aside className="summary">
