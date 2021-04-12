@@ -48,8 +48,6 @@ function App() {
     return discountMug + discountCap + discountShirt;
   }
 
-
-
   const _dicountQty = (qty, price, threshold, discount) => {
     const discounted = parseInt(qty / threshold);
     return price * (discounted * discount);
