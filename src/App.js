@@ -1,4 +1,4 @@
-// import React, { useState } from 'react';
+import React, { useState } from 'react';
 import Item from './js/Item';
 import shirt from './img/shirt.png';
 import mug from './img/mug.png';
@@ -8,6 +8,35 @@ import './css/main.css';
 
 function App() {
   const currency = '€';
+  const [quantityMug, setQuantityMug] = useState(0);
+  const [quantityShirt, setQuantityShirt] = useState(0);
+  const [quantityCap, setQuantityCap] = useState(0);
+  const [totalMug, setTotalMug] = useState(0);
+  const [totalShirt, setTotalShirt] = useState(0);
+  const [totalCap, setTotalCap] = useState(0);
+
+  const handleChangeQuantityCap = (inputValue, thePrice) => {
+    setQuantityCap(inputValue);
+    setTotalCap(inputValue * thePrice);
+  }
+
+  const handleChangeQuantityMug = (inputValue, thePrice) => {
+    setQuantityMug(inputValue);
+    setTotalMug(inputValue * thePrice);
+  }
+
+  const handleChangeQuantityShirt = (inputValue, thePrice) => {
+    setQuantityShirt(inputValue);
+    setTotalShirt(inputValue * thePrice);
+  }
+
+  const totalItems = () => {
+    return totalMug + totalCap + totalShirt;
+  }
+
+  const calculateTotal = () => {
+    return totalItems(); //- totalDiscount ();
+  }
 
   return (
     <div id="root">
@@ -23,18 +52,43 @@ function App() {
             </li>
           </ul>
           <ul className="products-list">
-            <Item product='Shirt' img={shirt} productCode='X7R2OPX' price='20' currency={currency} />
-            <Item product='Mug' img={mug} productCode='X2G2OPZ' price='5' currency={currency} />
-            <Item product='Cap' img={cap} productCode='X3W2OPY' price='10' currency={currency} />
+            <Item
+              product='Shirt'
+              img={shirt}
+              productCode='X7R2OPX'
+              price='20'
+              currency={currency}
+              quantity={quantityShirt}
+              total={totalShirt}
+              handleChangeQuantity={handleChangeQuantityShirt}
+            />
+            <Item
+              product='Mug'
+              img={mug}
+              productCode='X2G2OPZ'
+              price='5'
+              currency={currency}
+              quantity={quantityMug}
+              total={totalMug}
+              handleChangeQuantity={handleChangeQuantityMug} />
+            <Item
+              product='Cap'
+              img={cap}
+              productCode='X3W2OPY'
+              price='10'
+              currency={currency}
+              quantity={quantityCap}
+              total={totalCap}
+              handleChangeQuantity={handleChangeQuantityCap} />
           </ul>
         </section>
         <aside className="summary">
           <h1 className="main">Order Summary</h1>
           <ul className="summary-items wrapper border">
             <li>
-              <span className="summary-items-number">11 Items</span
+              <span className="summary-items-number">{quantityCap + quantityMug + quantityShirt} Items</span
               ><span className="summary-items-price"
-              >120<span className="currency">{currency}</span></span
+              >{totalItems()}<span className="currency">{currency}</span></span
               >
             </li>
           </ul>
@@ -50,7 +104,7 @@ function App() {
             <ul>
               <li>
                 <span className="summary-total-cost">Total cost</span
-                ><span className="summary-total-price">107{currency}</span>
+                ><span className="summary-total-price">{calculateTotal()}{currency}</span>
               </li>
             </ul>
             <button type="submit">Checkout</button>

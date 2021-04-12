@@ -1,28 +1,21 @@
-import React, { useState } from 'react';
+
 import '../App.css';
 
 function Item(props) {
-    const [quantity, setQuantity] = useState(0);
-    const [total, setTotal] = useState(0);
+
     const currency = props.currency;
 
-    const reduceQuantity = () => {
-        if (quantity - 1 >= 0) {
-            setQuantity(quantity - 1);
-            updateTotal(quantity - 1);
-        }
+    const reduce = (ev) => {
+        let myInput = document.getElementById(props.productCode);
+        myInput = parseInt(myInput.value) - 1;
+        props.handleChangeQuantity(myInput, props.price)
     }
-
-    const incrementQuantity = () => {
-        setQuantity(quantity + 1);
-        updateTotal(quantity + 1);
+    const increment = (ev) => {
+        let myInput = document.getElementById(props.productCode);
+        myInput = parseInt(myInput.value) + 1;
+        props.handleChangeQuantity(myInput, props.price)
     }
-
-    const handleChange = (_event) => { }
-
-    const updateTotal = (qty) => {
-        setTotal(qty * props.price);
-    }
+    const changeInput = () => { }
 
     return (
         <li className="product row">
@@ -36,8 +29,12 @@ function Item(props) {
                 </figure>
             </div>
             <div className="col-quantity">
-                <button className="count" onClick={reduceQuantity}>-</button>
-                <input type="text" className="product-quantity" value={quantity} onChange={handleChange} /><button onClick={incrementQuantity}
+                <button id='min-btn'
+                    className="count"
+                    onClick={reduce}>-</button>
+                <input id={props.productCode} type="text" className="product-quantity" value={props.quantity} onChange={changeInput} />
+                <button
+                    onClick={increment}
                     className="count"
                 >+</button>
             </div>
@@ -46,7 +43,7 @@ function Item(props) {
                 <span className="product-currency currency">{currency}</span>
             </div>
             <div className="col-total">
-                <span className="product-price">{total}</span>
+                <span className="product-price">{props.total}</span>
                 <span className="product-currency currency">{currency}</span>
             </div>
         </li>
