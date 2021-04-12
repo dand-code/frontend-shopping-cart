@@ -18,6 +18,8 @@ function Item(props) {
         updateTotal(quantity + 1);
     }
 
+    const handleChange = (_event) => { }
+
     const updateTotal = (qty) => {
         setTotal(qty * props.price);
     }
@@ -35,7 +37,7 @@ function Item(props) {
             </div>
             <div className="col-quantity">
                 <button className="count" onClick={reduceQuantity}>-</button>
-                <input type="text" className="product-quantity" value={quantity} /><button onClick={incrementQuantity}
+                <input type="text" className="product-quantity" value={quantity} onChange={handleChange} /><button onClick={incrementQuantity}
                     className="count"
                 >+</button>
             </div>
