@@ -8,12 +8,20 @@ import './css/main.css';
 
 function App() {
   const currency = '€';
+  const priceMug = 5.0;
+  const priceShirt = 20.0;
+  const priceCap = 10.0;
   const [quantityMug, setQuantityMug] = useState(0);
   const [quantityShirt, setQuantityShirt] = useState(0);
   const [quantityCap, setQuantityCap] = useState(0);
+
   const [totalMug, setTotalMug] = useState(0);
   const [totalShirt, setTotalShirt] = useState(0);
   const [totalCap, setTotalCap] = useState(0);
+
+  const [discountMug, setDiscountMug] = useState(0);
+  const [discountShirt, setDiscountShirt] = useState(0);
+  const [discountCap, setDiscountCap] = useState(0);
 
   const handleChangeQuantityCap = (inputValue, thePrice) => {
     setQuantityCap(inputValue);
@@ -23,19 +31,39 @@ function App() {
   const handleChangeQuantityMug = (inputValue, thePrice) => {
     setQuantityMug(inputValue);
     setTotalMug(inputValue * thePrice);
+    setDiscountMug(_dicountQty(inputValue, priceMug, 2, 1));
   }
 
   const handleChangeQuantityShirt = (inputValue, thePrice) => {
     setQuantityShirt(inputValue);
     setTotalShirt(inputValue * thePrice);
+    setDiscountShirt(_discountPrice(inputValue, 3, 1.0));
   }
 
   const totalItems = () => {
     return totalMug + totalCap + totalShirt;
   }
 
+  const totalDiscount = () => {
+    return discountMug + discountCap + discountShirt;
+  }
+
+
+
+  const _dicountQty = (qty, price, threshold, discount) => {
+    const discounted = parseInt(qty / threshold);
+    return price * (discounted * discount);
+  }
+
+  const _discountPrice = (qty, threshold, discount) => {
+    if (qty >= threshold)
+      return qty * discount;
+    else
+      return 0;
+  }
+
   const calculateTotal = () => {
-    return totalItems(); //- totalDiscount ();
+    return totalItems() - totalDiscount();
   }
 
   return (
@@ -56,7 +84,7 @@ function App() {
               product='Shirt'
               img={shirt}
               productCode='X7R2OPX'
-              price='20'
+              price={priceShirt}
               currency={currency}
               quantity={quantityShirt}
               total={totalShirt}
@@ -66,7 +94,7 @@ function App() {
               product='Mug'
               img={mug}
               productCode='X2G2OPZ'
-              price='5'
+              price={priceMug}
               currency={currency}
               quantity={quantityMug}
               total={totalMug}
@@ -75,7 +103,7 @@ function App() {
               product='Cap'
               img={cap}
               productCode='X3W2OPY'
-              price='10'
+              price={priceCap}
               currency={currency}
               quantity={quantityCap}
               total={totalCap}
@@ -95,8 +123,8 @@ function App() {
           <div className="summary-discounts wrapper-half border">
             <h2>Discounts</h2>
             <ul>
-              <li><span>2x1 Mug offer</span><span>-10{currency}</span></li>
-              <li><span>x3 Shirt offer</span><span>-3{currency}</span></li>
+              <li><span>2x1 Mug offer</span><span>{discountMug}{currency}</span></li>
+              <li><span>x3 Shirt offer</span><span>{discountShirt}{currency}</span></li>
               <li><span>Promo code</span><span>0{currency}</span></li>
             </ul>
           </div>
